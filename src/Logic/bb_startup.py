@@ -5,11 +5,14 @@ from Logic.language_set import language
 from Logic.menu import main_menu, unknown_command
 from user_manager import UM, Startuper
 from Logic.verification import *
+from database import db
+import datetime
 
 
 def startuper_final_q(update, context):
     lang = language(update)
     answer = update.message.text
+    db.update_user(update.effective_chat.id, 'startup', datetime.datetime.now().timestamp())
     if answer == c.text['final_option'][lang]:
         context.bot.send_message(chat_id=update.effective_chat.id, text=c.text['final_answer'][lang])
         print(UM.currentUsers)

@@ -19,7 +19,7 @@ from Logic.bb_startup import startup, tech_q, tech_yes_no, edu_yes_no, \
                         q_round_yes_no, try_again_or_mm, startuper_name, \
                         startuper_email, startuper_idea, startuper_proto, \
                         startuper_why_we, startuper_final_q
-from Logic.admin_panel import admin_handler, admin, get_stats
+from Logic.admin_panel import admin_handler, admin, get_stats, push_text, push_who
 # from Logic.stats_manager import new_users_stats
 from Logic.random_fact import random_fact
 
@@ -118,6 +118,8 @@ def main():
             PARTNER_FINAL_Q:      [*necessary_handlers, MessageHandler(Filters.text, partner_final_q)],
             ADMIN_HANDLER:        [*necessary_handlers, MessageHandler(Filters.text, admin_handler)],
             GET_STATS:            [*necessary_handlers, MessageHandler(Filters.text, get_stats)],
+            PUSH_TEXT:            [*necessary_handlers, MessageHandler(Filters.text, push_text)],
+            PUSH_WHO:             [*necessary_handlers, MessageHandler(Filters.text, push_who)],
 
         },
 
