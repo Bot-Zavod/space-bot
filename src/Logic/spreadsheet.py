@@ -1,6 +1,9 @@
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 
+from random import choice
+from datetime import datetime
+
 """
 #to get all the values inside the file
 sheet.get_all_values()
@@ -15,11 +18,35 @@ sheet.col_values(16)
 sheet.cell(1, 1).value
 """
 
-def spreadsheet(table):
+def spreadsheet(table, worksheet):
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name(
         'Pandemia parser-751d2a06ae54.json', scope)
     client = gspread.authorize(creds)
-    sheet = client.open(table).get_worksheet(0)
+    sheet = client.open(table).get_worksheet(worksheet)
     return sheet
+
+def random_fact():
+    'Факты о космосе'
+    worksheet = 0
+    sheet = spreadsheet('Факты о космосе', worksheet)
+    fact = choice(sheet.get_all_values())
+    return fact[0]
+
+def update_application(user_data):
+    user_type = user_data[0]
+    if user_type == "STARTUP":
+        worksheet = 0
+    elif user_type == "MENTOR":
+        worksheet = 1
+    elif user_type == "PARTNER":
+        worksheet = 2
+    sheet = spreadsheet('Заявки uasa_bot', worksheet)
+    last_raw = len(sheet.get_all_values()) + 1
+    today = datetime.now()
+    date = f"{today.year}/{today.month}/{today.day}"
+    raw = [date] + user_data[1:]
+    sheet.insert_row(raw, last_raw)
+
+    

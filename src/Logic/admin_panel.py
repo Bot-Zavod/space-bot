@@ -5,20 +5,20 @@ from os import getcwd
 
 from Logic.menu import main_menu, unknown_command
 from Logic.language_set import language
-import config as c
 from variables import *
-from database import db
+from database import DB
 #from Logic.stats_manager import Statistics
 import Logic.graph_create
 import subprocess
+import config as c
 
 push_text_notification = None # for text that admin wants to send
 
 
 def stats_handler(update, context):
-    date_data = db.get_date('startup', 'mentor', 'partner') # takes the data of users with applications sent
+    date_data = DB.get_date('startup', 'mentor', 'partner') # takes the data of users with applications sent
     print(date_data)
-    with open('datetime.csv', 'w', newline='') as file: # writing the data from db to csv file
+    with open('datetime.csv', 'w', newline='') as file: # writing the data from DB to csv file
         writer = csv.writer(file)
         writer.writerow(['date', 'specialization', 'startup', 'mentor', 'partner'])
         #i = 1
@@ -46,16 +46,16 @@ def push_who(update, context):
     lang = language(update)
     answer = update.message.text
     if answer == c.text['options_admin']['all'][lang]:
-        users_ids = db.get_users()
+        users_ids = DB.get_users()
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['startup'][lang]:
-        users_ids = db.get_users('startup')
+        users_ids = DB.get_users('startup')
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['mentor'][lang]:
-        users_ids = db.get_users('mentor')
+        users_ids = DB.get_users('mentor')
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['partner'][lang]:
-        users_ids = db.get_users('partner')
+        users_ids = DB.get_users('partner')
         return push_handler(update, context, users_ids)
     else:
         return unknown_command(update, context)
@@ -88,7 +88,7 @@ def admin_handler(update, context):
 
 def admin(update, context):
     lang = language(update)
-    if update.message.chat.username in ('khmellevskyi', 'V_Vargan'):
+    if update.message.chat.username in ('khmellevskyi', 'V_vargan'):
         reply_keyboard = [[c.text['options_admin']['push'][lang], c.text['options_admin']['stats'][lang]],
                           [c.text['to_main_menu'][lang]]]
         markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)

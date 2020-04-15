@@ -1,20 +1,22 @@
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
-from variables import *
-import config as c
+
 from Logic.language_set import language
 from Logic.menu import main_menu, unknown_command
-from user_manager import UM, Mentor
+from Logic.save_data import save_user 
 from Logic.verification import *
-from database import db
-import datetime
+
+from user_manager import UM, Mentor
+from variables import *
+import config as c
 
 
 def mentor_final_q(update, context):
     lang = language(update)
     answer = update.message.text
-    db.update_user(update.effective_chat.id, 'mentor', datetime.datetime.now().timestamp())
+    chat_id = update.effective_chat.id
+    save_user(chat_id)
     if answer == c.text['final_option'][lang]:
-        context.bot.send_message(chat_id=update.effective_chat.id, text=c.text['final_answer'][lang])
+        update.message.reply_text(text=c.text['final_answer'][lang])
         return main_menu(update, context)
     elif answer == c.text['to_main_menu'][lang]:
         return main_menu(update, context)

@@ -119,6 +119,15 @@ class Startuper(User):
     def get_last_item(self):
         return self.why_we
 
+    def get_data(self):
+        data = ["STARTUP",
+                self.name, 
+                self.email, 
+                self.idea, 
+                self.prototype, 
+                self.why_we]
+        return data
+
 
 class Mentor(User):
     def __init__(self, chat_id, name, specialization, update, context):
@@ -152,6 +161,15 @@ class Mentor(User):
     def get_last_item(self):
         return self.email
 
+    def get_data(self):
+        data = ["MENTOR",
+                self.name, 
+                self.email, 
+                self.expertise,
+                self.experience,
+                self.site]
+        return data
+
 
 class Partner(User):
     def __init__(self, chat_id, name, specialization, update, context):
@@ -183,6 +201,13 @@ class Partner(User):
     def get_last_item(self):
         return self.email
 
+    def get_data(self):
+        data = ["PARTNER",
+                self.name, 
+                self.email, 
+                self.organization_name,
+                self.organization_position]
+        return data
 
 UM = UserManager()
 # if __name__ == "__main__":
