@@ -1,8 +1,9 @@
 from telegram import ReplyKeyboardMarkup
-from variables import *
-from Logic.language_set import language
-import config as c
+
 from Logic.menu import main_menu, unknown_command
+from Logic.language_set import language
+from variables import *
+import config as c
 
 
 def about_yangel(update, context):

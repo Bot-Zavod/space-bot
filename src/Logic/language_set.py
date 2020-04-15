@@ -2,17 +2,12 @@ from telegram import ReplyKeyboardMarkup
 from variables import *
 import config as c
 
-from database import DbInterface
+from database import DB
 from os import getcwd
-
-# get path of the database file and creating the manager object
-
-path = getcwd() + "/Space_DB.db"
-db = DbInterface(path)
 
 
 def language(update):
-    lang = db.getLang(update.message.chat_id)
+    lang = DB.getLang(update.message.chat_id)
     #print(update.effective_chat.id)
     if lang is None:
         update.message.reply_text(text=c.text['start'])

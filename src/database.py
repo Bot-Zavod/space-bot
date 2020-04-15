@@ -1,12 +1,19 @@
 import sqlite3
 import datetime
 from os import getcwd
+from datetime import datetime
 
 
 class DbInterface:
     def __init__(self, path):
         self.conn = sqlite3.connect(path, check_same_thread=False)
         self.cursor = self.conn.cursor()
+
+    def check_user(self, chat_id):
+        sql = 'SELECT EXISTS(SELECT * from Users Where Chat_id = ?)'
+        args = [chat_id]
+        self.cursor.execute(sql, args)
+        return True if self.cursor.fetchall()[0][0] == 1 else False
 
     def add_user(self, chat_id):
         sql = 'INSERT INTO Users (chat_id) VALUES (?)'
@@ -18,8 +25,9 @@ class DbInterface:
             self.conn.commit()
             print(f"User {chat_id} exists")
 
-    def update_user(self, chat_id, status, date):
+    def update_user(self, chat_id, status):
         sql = 'UPDATE Users SET status = (?), date = (?) WHERE chat_id = (?)'
+        date = datetime.now().timestamp()
         args = [status, date, chat_id]
         try:
             self.cursor.execute(sql, args)
@@ -68,12 +76,6 @@ class DbInterface:
     #         self.conn.commit()
     #     except sqlite3.IntegrityError:
     #         print("ERROR")
-
-    # def checkUser(self, chat_id):
-    #     sql = 'SELECT EXISTS(SELECT * from Users Where Chat_id = ?)'
-    #     args = [chat_id]
-    #     self.cursor.execute(sql, args)
-    #     return True if self.cursor.fetchall()[0][0] == 1 else False
     
     def idx(self): # creates unique indexes to make impossible to write the same chat_id in BD twi
         sql2 = 'CREATE UNIQUE INDEX idx_Language_chat_id ON Language (chat_id)'
@@ -110,7 +112,8 @@ class DbInterface:
             print("error")
         return self.cursor.fetchall()[0][0]
 
-    
+path = getcwd() + "/Space_DB.db"
+DB = DbInterface(path)
 # db = DbInterface(getcwd() + '/Space_DB.db')
 # db.add_user(11)
 # db.add_user(12)

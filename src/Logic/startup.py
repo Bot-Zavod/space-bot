@@ -1,21 +1,24 @@
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
+
+from Logic.menu import main_menu, unknown_command
+from Logic.language_set import language
+from Logic.save_data import save_user 
+from Logic.verification import *
+
+from user_manager import UM, Startupe
 from variables import *
 import config as c
-from Logic.language_set import language
-from Logic.menu import main_menu, unknown_command
-from user_manager import UM, Startuper
-from Logic.verification import *
 
 
 def startuper_final_q(update, context):
     lang = language(update)
     answer = update.message.text
+    chat_id = update.effective_chat.id
+    save_user(chat_id)
     if answer == c.text['final_option'][lang]:
-        context.bot.send_message(chat_id=update.effective_chat.id, text=c.text['final_answer'][lang])
-        print(UM.currentUsers)
+        update.message.reply_text(text=c.text['final_answer'][lang])
         return main_menu(update, context)
     elif answer == c.text['to_main_menu'][lang]:
-        print(UM.currentUsers)
         return main_menu(update, context)
     else:
         return unknown_command(update, context)

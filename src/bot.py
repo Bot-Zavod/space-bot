@@ -3,29 +3,28 @@ from telegram import ReplyKeyboardMarkup #KeyboardButton,InlineKeyboardMarkup,In
 from os import environ as env, getcwd # for environmental variables
 import logging #used for error detection
 
-import config as c
-from database import DbInterface
-from user_manager import UM
 from Logic.language_set import language, setting_lang
-from variables import *
 from Logic.menu import main_menu, unknown_command
 from Logic.about_yangel import about_yangel, about_yangel_handler
-from Logic.mentor import mentor, mentor_handler, mentor_name, mentor_expertise, \
-                        mentor_experience, mentor_site, mentor_email, mentor_final_q
 from Logic.partner import partner, partner_handler, partner_name, partner_org_name, \
                         partner_org_pos, partner_email, partner_final_q
+from Logic.mentor import mentor, mentor_handler, mentor_name, mentor_expertise, \
+                        mentor_experience, mentor_site, mentor_email, mentor_final_q
 from Logic.bb_startup import startup, tech_q, tech_yes_no, edu_yes_no, \
                         fantastic_yes_no, proto_yes_no, team_yes_no, \
                         q_round_yes_no, try_again_or_mm, startuper_name, \
                         startuper_email, startuper_idea, startuper_proto, \
                         startuper_why_we, startuper_final_q
 from Logic.admin_panel import admin_handler, admin
-# from Logic.stats_manager import new_users_stats
-from Logic.random_fact import random_fact
+from Logic.spreadsheet import random_fact
+from user_manager import UM
+from variables import *
+from database import DB
+import config as c
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
-
+print("Succesfull start")
 
 def main_menu_handler(update, context):
     lang = language(update)
@@ -47,9 +46,12 @@ def main_menu_handler(update, context):
 def start(update, context):
     """Welcome greating and proposing to choose the language"""
     lang = language(update)
+    chat_id =update.effective_chat.id
+    if not DB.check_user(chat_id):
+        DB.add_user(chat_id)
     # new_users_stats.add_stats(update.effective_chat.id, update.message.chat.username)
-    if update.effective_chat.id in UM.currentUsers:
-        del UM.currentUsers[update.effective_chat.id]
+    if chat_id in UM.currentUsers:
+        del UM.currentUsers[chat_id]
     if lang == 1 or lang == 0:
         markup = ReplyKeyboardMarkup([[c.text['to_main_menu'][lang]]], resize_keyboard=True, one_time_keyboard=True)
         update.message.reply_text(text=c.text['welcome_back'][lang], reply_markup=markup)

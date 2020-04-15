@@ -2,15 +2,16 @@ from telegram import ReplyKeyboardMarkup
 
 from Logic.menu import main_menu, unknown_command
 from Logic.language_set import language
-import config as c
 from variables import *
-# from Logic.stats_manager import statistics
+import config as c
+
+from Logic.stats_manager import statistics
 
 
 def get_stats(update, context):
     lang = language(update)
-    # context.bot.send_message(chat_id=update.effective_chat.id, text=statistics.get_stats(lang))
-    # return more stat if person chooses
+    context.bot.send_message(chat_id=update.effective_chat.id, text=statistics.get_stats(lang))
+    return more stat if person chooses
 
 
 def admin_handler(update, context):
@@ -32,7 +33,7 @@ def admin_handler(update, context):
 
 def admin(update, context):
     lang = language(update)
-    if update.message.chat.username in ('khmellevskyi', 'V_Vargan'):
+    if update.message.chat.username in ('khmellevskyi', 'V_vargan'):
         reply_keyboard = [[c.text['options_admin']['push'][lang], c.text['options_admin']['stats'][lang]],
                           [c.text['to_main_menu'][lang]]]
         markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True, one_time_keyboard=True)
