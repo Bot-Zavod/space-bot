@@ -6,24 +6,19 @@ from os import getcwd
 from Logic.menu import main_menu, unknown_command
 from Logic.language_set import language
 from variables import *
-<<<<<<< HEAD
-import config as c
-
-from Logic.stats_manager import statistics
-=======
-from database import db
+from database import DB
 #from Logic.stats_manager import Statistics
 import Logic.graph_create
 import subprocess
->>>>>>> 83785bbf7c00f5821c63dcf58e1bba698f009286
+import config as c
 
 push_text_notification = None # for text that admin wants to send
 
 
 def stats_handler(update, context):
-    date_data = db.get_date('startup', 'mentor', 'partner') # takes the data of users with applications sent
+    date_data = DB.get_date('startup', 'mentor', 'partner') # takes the data of users with applications sent
     print(date_data)
-    with open('datetime.csv', 'w', newline='') as file: # writing the data from db to csv file
+    with open('datetime.csv', 'w', newline='') as file: # writing the data from DB to csv file
         writer = csv.writer(file)
         writer.writerow(['date', 'specialization', 'startup', 'mentor', 'partner'])
         #i = 1
@@ -51,16 +46,16 @@ def push_who(update, context):
     lang = language(update)
     answer = update.message.text
     if answer == c.text['options_admin']['all'][lang]:
-        users_ids = db.get_users()
+        users_ids = DB.get_users()
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['startup'][lang]:
-        users_ids = db.get_users('startup')
+        users_ids = DB.get_users('startup')
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['mentor'][lang]:
-        users_ids = db.get_users('mentor')
+        users_ids = DB.get_users('mentor')
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['partner'][lang]:
-        users_ids = db.get_users('partner')
+        users_ids = DB.get_users('partner')
         return push_handler(update, context, users_ids)
     else:
         return unknown_command(update, context)
@@ -69,17 +64,12 @@ def push_who(update, context):
 def push_text(update, context):
     global push_text_notification
     lang = language(update)
-<<<<<<< HEAD
-    context.bot.send_message(chat_id=update.effective_chat.id, text=statistics.get_stats(lang))
-    return more stat if person chooses
-=======
     push_text_notification = update.message.text
     reply_keyboard = [[c.text['options_admin']['all'][lang], c.text['options_admin']['startup'][lang]],
                       [c.text['options_admin']['mentor'][lang], c.text['options_admin']['partner'][lang]]]
     markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True, one_time_keyboard=True)
     update.message.reply_text(text=c.text['push_who_q'][lang], reply_markup=markup)
     return PUSH_WHO
->>>>>>> 83785bbf7c00f5821c63dcf58e1bba698f009286
 
 
 def admin_handler(update, context):

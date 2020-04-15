@@ -112,15 +112,8 @@ class DbInterface:
             print("error")
         return self.cursor.fetchall()[0][0]
 
-<<<<<<< HEAD
 path = getcwd() + "/Space_DB.db"
 DB = DbInterface(path)
-=======
-
-path = getcwd() + "/Space_DB.db"
-db = DbInterface(path)
-
->>>>>>> 83785bbf7c00f5821c63dcf58e1bba698f009286
 # db = DbInterface(getcwd() + '/Space_DB.db')
 # db.add_user(11)
 # db.add_user(12)

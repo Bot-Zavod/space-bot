@@ -4,8 +4,6 @@ from Logic.language_set import language
 from Logic.menu import main_menu, unknown_command
 from Logic.save_data import save_user 
 from Logic.verification import *
-from database import db
-import datetime
 
 from user_manager import UM, Mentor
 from variables import *
