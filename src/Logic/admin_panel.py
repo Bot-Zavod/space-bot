@@ -16,12 +16,11 @@ push_text_notification = None # for text that admin wants to send
 
 
 def stats_handler(update, context):
-    date_data = DB.get_date('startup', 'mentor', 'partner') # takes the data of users with applications sent
+    date_data = DB.get_date('STARTUP', 'MENTOR', 'PARTNER') # takes the data of users with applications sent
     print(date_data)
     with open('datetime.csv', 'w', newline='') as file: # writing the data from DB to csv file
         writer = csv.writer(file)
         writer.writerow(['date', 'specialization', 'startup', 'mentor', 'partner'])
-        #i = 1
         for z in date_data:
             writer.writerow([datetime.fromtimestamp(z[0]).date(), z[1]])
         file.close()
@@ -49,13 +48,13 @@ def push_who(update, context):
         users_ids = DB.get_users()
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['startup'][lang]:
-        users_ids = DB.get_users('startup')
+        users_ids = DB.get_users('STARTUP')
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['mentor'][lang]:
-        users_ids = DB.get_users('mentor')
+        users_ids = DB.get_users('MENTOR')
         return push_handler(update, context, users_ids)
     elif answer == c.text['options_admin']['partner'][lang]:
-        users_ids = DB.get_users('partner')
+        users_ids = DB.get_users('PARTNER')
         return push_handler(update, context, users_ids)
     else:
         return unknown_command(update, context)

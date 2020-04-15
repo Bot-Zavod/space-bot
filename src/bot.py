@@ -4,7 +4,7 @@ from os import environ as env, getcwd # for environmental variables
 import logging #used for error detection
 
 import config as c
-from database import db
+from database import DB
 from user_manager import UM
 from Logic.language_set import language, setting_lang
 from variables import *
@@ -19,9 +19,8 @@ from Logic.bb_startup import startup, tech_q, tech_yes_no, edu_yes_no, \
                         q_round_yes_no, try_again_or_mm, startuper_name, \
                         startuper_email, startuper_idea, startuper_proto, \
                         startuper_why_we, startuper_final_q
-from Logic.admin_panel import admin_handler, admin, get_stats, push_text, push_who
-# from Logic.stats_manager import new_users_stats
-from Logic.random_fact import random_fact
+from Logic.admin_panel import admin_handler, admin, push_text, push_who
+from Logic.spreadsheet import random_fact
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -39,7 +38,7 @@ def main_menu_handler(update, context):
     elif answer == c.text['main_menu']['fourth_option'][lang]:
         return partner(update, context)
     elif answer == c.text['main_menu']['fifth_option'][lang]:
-        update.message.reply_text(text = random_fact())
+        update.message.reply_text(text=random_fact())
     else:
         return unknown_command(update, context)
 
@@ -47,7 +46,7 @@ def main_menu_handler(update, context):
 def start(update, context):
     """Welcome greating and proposing to choose the language"""
     lang = language(update)
-    db.add_user(update.effective_chat.id)
+    DB.add_user(update.effective_chat.id)
     if update.effective_chat.id in UM.currentUsers:
         del UM.currentUsers[update.effective_chat.id]
     if lang == 1 or lang == 0:
@@ -117,7 +116,6 @@ def main():
             PARTNER_EMAIL:        [*necessary_handlers, MessageHandler(Filters.text, partner_email)],
             PARTNER_FINAL_Q:      [*necessary_handlers, MessageHandler(Filters.text, partner_final_q)],
             ADMIN_HANDLER:        [*necessary_handlers, MessageHandler(Filters.text, admin_handler)],
-            GET_STATS:            [*necessary_handlers, MessageHandler(Filters.text, get_stats)],
             PUSH_TEXT:            [*necessary_handlers, MessageHandler(Filters.text, push_text)],
             PUSH_WHO:             [*necessary_handlers, MessageHandler(Filters.text, push_who)],
 

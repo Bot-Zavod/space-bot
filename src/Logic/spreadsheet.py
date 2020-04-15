@@ -18,6 +18,7 @@ sheet.col_values(16)
 sheet.cell(1, 1).value
 """
 
+
 def spreadsheet(table, worksheet):
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
@@ -27,12 +28,14 @@ def spreadsheet(table, worksheet):
     sheet = client.open(table).get_worksheet(worksheet)
     return sheet
 
+
 def random_fact():
     'Факты о космосе'
     worksheet = 0
     sheet = spreadsheet('Факты о космосе', worksheet)
     fact = choice(sheet.get_all_values())
     return fact[0]
+
 
 def update_application(user_data):
     user_type = user_data[0]

@@ -23,10 +23,10 @@ def setting_lang(update, context):
     answer = update.message.text
     if answer == c.text["en"]:
         lang = 1
-        db.setLang(update.effective_chat.id, lang)
+        DB.setLang(update.effective_chat.id, lang)
     elif answer == c.text["ua"]:
         lang = 0
-        db.setLang(update.effective_chat.id, lang)
+        DB.setLang(update.effective_chat.id, lang)
     else:
         # if he inputs some shit we are not allowing to go further
         return language(update)
