@@ -1,11 +1,25 @@
 # import schedule
 import time
 import threading
+import pandas as pd
+from matplotlib import pyplot as plt
 
 import config as c
 from Logic.language_set import language
 
 
+class Statistics:
+    def __init__(self):
+        self.graphthread = threading.Thread(target=self.__proccess)
+        self.graphthread.start()
+
+    def __proccess(self):
+        date_df = pd.read_csv('datetime.csv')
+
+        plt.hist(date_df['count'])
+        plt.show()
+        plt.savefig('graph.png', bbox_inches='tight')
+'''
 class Statistics:
     def __init__(self):
         #self.stats_dict = {}
@@ -79,3 +93,4 @@ class StartupStats(Statistics):
 statistics = Statistics()
 new_users_stats = NewUsersStats()
 startup_users_stats = StartupStats()
+'''

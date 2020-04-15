@@ -119,6 +119,9 @@ def main():
             PARTNER_EMAIL:        [*necessary_handlers, MessageHandler(Filters.text, partner_email)],
             PARTNER_FINAL_Q:      [*necessary_handlers, MessageHandler(Filters.text, partner_final_q)],
             ADMIN_HANDLER:        [*necessary_handlers, MessageHandler(Filters.text, admin_handler)],
+            GET_STATS:            [*necessary_handlers, MessageHandler(Filters.text, get_stats)],
+            PUSH_TEXT:            [*necessary_handlers, MessageHandler(Filters.text, push_text)],
+            PUSH_WHO:             [*necessary_handlers, MessageHandler(Filters.text, push_who)],
 
         },
 
