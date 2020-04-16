@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 import csv
 from datetime import datetime
-from os import getcwd
+from os import getcwd, remove
 
 from Logic.menu import main_menu, unknown_command
 from Logic.language_set import language
@@ -27,9 +27,13 @@ def stats_handler(update, context):
     path = getcwd() + "/src/Logic/graph_create.py"
     subprocess.run(f'python3 {path}', shell=True) # launching second process to hold graph creation on the main thread
     filename = getcwd() + '/graph.png'
-    with open(filename, 'rb') as file: # reading the file with graph and sending to the admin
-        context.bot.send_photo(chat_id=update.effective_chat.id, photo=file,
-                               caption='The graph')
+    try:
+        with open(filename, 'rb') as file: # reading the file with graph and sending to the admin
+            context.bot.send_photo(chat_id=update.effective_chat.id, photo=file,
+                                   caption='The graph')
+        remove(filename)
+    except FileNotFoundError:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, there's still no submitted applications")
 
 
 def push_handler(update, context, users_ids):

@@ -16,7 +16,7 @@ def mentor_final_q(update, context):
     chat_id = update.effective_chat.id
     save_user(chat_id)
     if answer == c.text['final_option'][lang]:
-        update.message.reply_text(text=c.text['final_answer'][lang])
+        context.bot.send_message(text=c.text['final_answer'][lang], chat_id=update.effective_chat.id)
         return main_menu(update, context)
     elif answer == c.text['to_main_menu'][lang]:
         return main_menu(update, context)
