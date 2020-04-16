@@ -41,7 +41,8 @@ def push_handler(update, context, users_ids):
     lang = language(update)
     for z in users_ids: # sending the notification message
         context.bot.send_message(chat_id=z, text=push_text_notification)
-    context.bot.send_message(chat_id=update.effective_chat.id, text=c.text['push_success'][lang])
+    user_number = len(users_ids)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=c.text['push_success'][lang].format(user_number = user_number))
     return admin(update, context)
 
 

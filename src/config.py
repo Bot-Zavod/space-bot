@@ -245,8 +245,8 @@ text = {
                    1: 'Who do you want to send a notification to?'},
     'push_text_q': {0: 'Напишіть текст повідомлення, яке хочете надіслати',
                     1: 'Write down the text of the notification you want to send'},
-    'push_success': {0: 'Ваше повідомлення було успішно надіслано\nПеренаправляю в адмін меню..',
-                     1: 'Your notification message was successfully sent\nMoving to the admin menu..'},
+    'push_success': {0: 'Ваше повідомлення було успішно надіслано {user_number} користувачам\nПеренаправляю в адмін меню..',
+                     1: 'Your notification message was successfully sent to {user_number} users\nMoving to the admin menu..'},
     'stats_q': {0: 'Тут можна дивитись статистику відправлених заявок по дням\nЯку саме статистику ви хочете побачити?',
                 1: 'Here you can see the statistics of sent applications by days\nWhat statistics exactly '
                    'do you want to see?'},
