@@ -23,7 +23,7 @@ def spreadsheet(table, worksheet):
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
     creds = ServiceAccountCredentials.from_json_keyfile_name(
-        'Pandemia parser-751d2a06ae54.json', scope)
+        'Pandemia-parser-751d2a06ae54.json', scope)
     client = gspread.authorize(creds)
     sheet = client.open(table).get_worksheet(worksheet)
     return sheet
