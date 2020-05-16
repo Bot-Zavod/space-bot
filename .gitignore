@@ -2,6 +2,7 @@
 __pycache__/
 .vscode/
 Pandemia parser-751d2a06ae54.json
+.env
 *.py[cod]
 *$py.class
 
