@@ -5,6 +5,7 @@ from os import getcwd, remove
 
 from Logic.menu import main_menu, unknown_command
 from Logic.language_set import language
+from Logic.spreadsheet import updateFact
 from variables import *
 from database import DB
 #from Logic.stats_manager import Statistics
@@ -16,19 +17,23 @@ push_text_notification = None # for text that admin wants to send
 
 
 def stats_handler(update, context):
-    date_data = DB.get_date('STARTUP', 'MENTOR', 'PARTNER') # takes the data of users with applications sent
+    # takes the data of users with applications sent
+    date_data = DB.get_date('STARTUP', 'MENTOR', 'PARTNER')
     print(date_data)
-    with open('datetime.csv', 'w', newline='') as file: # writing the data from DB to csv file
+    # writing the data from DB to csv file
+    with open('datetime.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['date', 'specialization', 'startup', 'mentor', 'partner'])
         for z in date_data:
             writer.writerow([datetime.fromtimestamp(z[0]).date(), z[1]])
         file.close()
     path = getcwd() + "/src/Logic/graph_create.py"
-    subprocess.run(f'python3 {path}', shell=True) # launching second process to hold graph creation on the main thread
+    # launching second process to hold graph creation on the main thread
+    subprocess.run(f'python3 {path}', shell=True)
     filename = getcwd() + '/graph.png'
     try:
-        with open(filename, 'rb') as file: # reading the file with graph and sending to the admin
+        # reading the file with graph and sending to the admin
+        with open(filename, 'rb') as file:
             context.bot.send_photo(chat_id=update.effective_chat.id, photo=file,
                                    caption='The graph')
         remove(filename)
@@ -84,6 +89,10 @@ def admin_handler(update, context):
         return PUSH_TEXT
     elif answer == c.text['options_admin']['stats'][lang]:
         return stats_handler(update, context)
+    elif answer == c.text['options_admin']['update'][lang]:
+        facts = updateFact()
+        msg = c.text['options_admin']['update_text'][lang]
+        update.message.reply_text(msg.format(facts=facts), disable_web_page_preview=True)
     elif answer == c.text['to_main_menu'][lang]:
         return main_menu(update, context)
     else:
@@ -94,6 +103,7 @@ def admin(update, context):
     lang = language(update)
     if update.message.chat.username in ('khmellevskyi', 'V_vargan'):
         reply_keyboard = [[c.text['options_admin']['push'][lang], c.text['options_admin']['stats'][lang]],
+                          [c.text['options_admin']['update'][lang]],
                           [c.text['to_main_menu'][lang]]]
         markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
         update.message.reply_text(text=c.text['hi_boss'][lang], reply_markup=markup)

@@ -1,6 +1,6 @@
 from telegram.ext import Updater, Filters, ConversationHandler, MessageHandler, CommandHandler, Handler
 from telegram import ReplyKeyboardMarkup #KeyboardButton,InlineKeyboardMarkup,InlineKeyboardButton
-from os import environ as env, getcwd # for environmental variables
+from os import environ as env, getcwd, path
 import logging #used for error detection
 
 import config as c
@@ -20,18 +20,42 @@ from Logic.bb_startup import startup, tech_q, tech_yes_no, edu_yes_no, \
                         startuper_email, startuper_idea, startuper_proto, \
                         startuper_why_we, startuper_final_q
 from Logic.admin_panel import admin_handler, admin, push_text, push_who
-from Logic.spreadsheet import random_fact
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def enviroment_files():
+    def check_file(filename):
+        print()
+        create_path = path.abspath(getcwd())
+        create_path = path.join(create_path, filename)
+        if not path.exists(create_path):
+            print(f"{filename} not found")
+            print(f"create_path: {create_path}")
+            if filename == ".env":
+                with open(create_path, "w") as env:
+                    env.write("API_KEY=''\n")
+                    env.write("password_email=''\n")
+                    env.write("user_email=''\n")
+            else:
+                f = open(create_path, "x")
+                f.close()
+            print(f"{filename} need to be completed")
+        else:
+            print(f"{filename} exist")
+        print()
+    check_file(".env")
+    check_file("Vargan-API.json")
+enviroment_files()
+
 from dotenv import load_dotenv
 load_dotenv()
-print("Start was succesfull")
+print("Modules import succesfull")
 
 def main_menu_handler(update, context):
     lang = language(update)
     answer = update.message.text
+
     if answer == c.text['main_menu']['first_option'][lang]:
         return about_yangel(update, context)
     elif answer == c.text['main_menu']['second_option'][lang]:
@@ -41,7 +65,7 @@ def main_menu_handler(update, context):
     elif answer == c.text['main_menu']['fourth_option'][lang]:
         return partner(update, context)
     elif answer == c.text['main_menu']['fifth_option'][lang]:
-        update.message.reply_text(text=random_fact())
+        update.message.reply_text(text=str(DB.randomFact()))
     else:
         return unknown_command(update, context)
 
@@ -50,6 +74,7 @@ def start(update, context):
     """Welcome greating and proposing to choose the language"""
     lang = language(update)
     DB.add_user(update.effective_chat.id)
+    
     if update.effective_chat.id in UM.currentUsers:
         del UM.currentUsers[update.effective_chat.id]
     if lang == 1 or lang == 0:
@@ -71,6 +96,7 @@ def error(update, context):
 
 
 def main():
+    print("Starting")
     api_key = env.get('API_KEY')
 
     updater = Updater(token=api_key, use_context=True)
@@ -127,9 +153,10 @@ def main():
         fallbacks=[CommandHandler('stop', done)], allow_reentry=True
     )
     dispatcher.add_handler(conv_handler)
-    #dispatcher.add_error_handler(error)
+    # dispatcher.add_error_handler(error)
 
     updater.start_polling()
+    print("Started succesfully")
     updater.idle()
 
 

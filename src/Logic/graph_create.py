@@ -12,8 +12,11 @@ def main():
     print(date_df['date'])
     #x_axis = pd.to_datetime(date_df['date'])
     #plt.hist(x_axis, bins=10)
-    date_df['date'] = date_df['date'].astype('datetime64') # turning the column with the date into datetime64 format
-    for z in range(len(date_df)): # classifying users on their specializations to get multi stats
+
+    # turning the column with the date into datetime64 format
+    date_df['date'] = date_df['date'].astype('datetime64')
+    # classifying users on their specializations to get multi stats
+    for z in range(len(date_df)):
         if date_df.at[z, 'specialization'] == 'STARTUP':
             date_df.at[z, 'startup'] = 1
         elif date_df.at[z, 'specialization'] == 'MENTOR':

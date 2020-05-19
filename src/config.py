@@ -254,6 +254,11 @@ text = {
                                1: 'Push'},
                       'stats': {0: 'Статистика',
                                 1: 'Statistics'},
+                      'update': {0: 'Факты',
+                                1: 'Facts'},
+                      'update_text': {0: 'Из таблицы:\nhttps://docs.google.com/spreadsheets/d/1Iy5gvjI7RiCoaisf6cuKiqijNlwdf3K4UosprAByrt8\n\nОбнолено {facts} фактов',
+                                      1: 'From table:\nhttps://docs.google.com/spreadsheets/d/1Iy5gvjI7RiCoaisf6cuKiqijNlwdf3K4UosprAByrt8\n\nUpdated {facts} facts'},
+
                       'all': {0: 'Всім',
                               1: 'All'},
                       'startup': {0: 'Стартапи',
