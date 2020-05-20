@@ -1,7 +1,8 @@
 from telegram.ext import Updater, Filters, ConversationHandler, MessageHandler, CommandHandler, Handler
-from telegram import ReplyKeyboardMarkup #KeyboardButton,InlineKeyboardMarkup,InlineKeyboardButton
+from telegram import ReplyKeyboardMarkup # KeyboardButton,InlineKeyboardMarkup,InlineKeyboardButton
 from os import environ as env, getcwd, path
-import logging #used for error detection
+import logging # used for error detection
+from dotenv import load_dotenv
 
 import config as c
 from database import DB
@@ -24,6 +25,7 @@ from Logic.admin_panel import admin_handler, admin, push_text, push_who
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def enviroment_files():
     def check_file(filename):
         print()
@@ -34,9 +36,16 @@ def enviroment_files():
             print(f"create_path: {create_path}")
             if filename == ".env":
                 with open(create_path, "w") as env:
-                    env.write("API_KEY=''\n")
-                    env.write("password_email=''\n")
+                    env.write("API_KEY=''\n\n")
+
+                    env.write("host=''\n")
+                    env.write("port=''\n\n")
+
                     env.write("user_email=''\n")
+                    env.write("password_email=''\n\n")
+
+                    env.write("from=''\n")
+                    env.write("to=''\n\n")
             else:
                 f = open(create_path, "x")
                 f.close()
@@ -46,11 +55,12 @@ def enviroment_files():
         print()
     check_file(".env")
     check_file("Vargan-API.json")
-enviroment_files()
 
-from dotenv import load_dotenv
+
+enviroment_files()
 load_dotenv()
 print("Modules import succesfull")
+
 
 def main_menu_handler(update, context):
     lang = language(update)
@@ -86,7 +96,7 @@ def start(update, context):
 
 
 def done(update, context):
-    #context.bot.send_message('Your message was not recognized')
+    # context.bot.send_message('Your message was not recognized')
     return ConversationHandler.END
 
 
