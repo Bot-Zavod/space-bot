@@ -12,7 +12,7 @@ def name_check(name):
 
 # проверка адреса электронной почты юзера
 def email_check(email):
-    if email.count(".") + email.count("@") == 2:
+    if email.count(".") + email.count("@") >= 2:
         return True
     else:
         return False
