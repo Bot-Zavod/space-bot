@@ -1,8 +1,9 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .vscode/
-Pandemia parser-751d2a06ae54.json
-.env
+Vargan-API.json
+.db
+
 *.py[cod]
 *$py.class
 
@@ -134,7 +135,6 @@ __init__.py
 lang_set.py
 startup_menu.py
 Space_DB.db
-Space_DB.db.sqbpro
 .idea
 some_file
 /datetime.csv

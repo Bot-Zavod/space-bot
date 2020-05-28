@@ -20,8 +20,9 @@ class UserManager:
     def __remove_old_users(self):
         while True:
             sleep(self.user_removal_time)
-            print('deleteCycle')
-            print(self.currentUsers)
+            if self.currentUsers != {}:
+                print('deleteCycle')
+                print(self.currentUsers)
             users_to_send_and_delete = []
             for user in self.currentUsers.values():
                 if time.time() - user.lastActivityTime > self.user_removal_time and user.get_last_item() is None:

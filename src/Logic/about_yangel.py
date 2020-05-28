@@ -20,6 +20,6 @@ def about_yangel_handler(update, context):
     if answer == c.text['first_menu']['first_option'][lang]:
         return main_menu(update, context)
     elif answer == c.text['first_menu']['second_option'][lang]:
-        context.bot.send_message(text='http://www.nkau.gov.ua', chat_id=update.effective_chat.id)
+        update.message.reply_text(text='http://yangelspace.tech')
     else:
         return unknown_command(update, context)
